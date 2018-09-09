@@ -10,7 +10,7 @@ import UIKit
 
 class FeaturedAppsController: UICollectionViewController {
     
-    let cellId = "cellId"
+    private let cellId = "cellId"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +32,6 @@ class FeaturedAppsController: UICollectionViewController {
 
 extension FeaturedAppsController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 150)
+        return CGSize(width: view.frame.width, height: 230)
     }
 }
