@@ -8,47 +8,51 @@
 
 import UIKit
 
-class AppCategory: NSObject {
+class Featured: Decodable {
+    //var bannerCategory: [AppCategory]?
+    var categories: [AppCategory]?
+}
+
+class AppCategory: Decodable {
     
     var name: String?
     var apps: [App]?
+    var type: String?
     
-    static func sampleAppCategories() -> [AppCategory] {
+    static func fetchedFeaturedApps(completionHandler: @escaping ([AppCategory]) -> ()) {
+        let session = URLSession.shared
+        let urlString = "https://api.letsbuildthatapp.com/appstore/featured"
         
-        let bestNewAppsCategory = AppCategory()
-        bestNewAppsCategory.name = "Best New Apps"
-        var appsCategories = [App]()
-        
-        let frozenApp = App()
-        frozenApp.name = "Disney Build It: Frozen"
-        frozenApp.imageName = "frozen"
-        frozenApp.category = "Entertainment"
-        frozenApp.price = NSNumber(value: 3.99)
-        
-        appsCategories.append(frozenApp)
-        bestNewAppsCategory.apps = appsCategories
-        
-        let gamesCategories = AppCategory()
-        gamesCategories.name = "Best New Games"
-        var bestNewGamesApp = [App]()
-        
-        let telepaintApp = App()
-        telepaintApp.name = "Telepaint"
-        telepaintApp.imageName = "telepaint"
-        telepaintApp.category = "Games"
-        telepaintApp.price = NSNumber(value: 2.99)
-        
-        bestNewGamesApp.append(telepaintApp)
-        gamesCategories.apps = bestNewGamesApp
-        
-        return [bestNewAppsCategory, gamesCategories]
+        let task = session.dataTask(with: URL(string: urlString)!) { (data, response, error) in
+            guard (error == nil) else { return }
+            guard let data = data else { return }
+            
+            var appCategories = [AppCategory]()
+            
+            do {
+                let json = try JSONDecoder().decode(Featured.self, from: data)
+                
+                if let categories = json.categories {
+                    appCategories = categories
+                }
+                
+            } catch let error {
+                print(error)
+            }
+            
+            DispatchQueue.main.async {
+                completionHandler(appCategories)
+            }
+        }
+        task.resume()
     }
+
 }
 
-class App: NSObject {
-    var id: NSNumber?
-    var name: String?
-    var category: String?
-    var imageName: String?
-    var price: NSNumber?
+class App: Decodable {
+    var Id: Int?
+    var Name: String?
+    var Category: String?
+    var ImageName: String?
+    var Price: Float?
 }

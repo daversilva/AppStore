@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class CategoryCell: UICollectionViewCell, UICollectionViewDelegate {
     
@@ -105,21 +106,35 @@ class AppCell: UICollectionViewCell {
     
     var app: App? {
         didSet {
-            if let name = app?.name {
+            if let name = app?.Name {
                 nameLabel.text = name
+                
+                let boundingBox = NSString(string: name).boundingRect(with: CGSize(width: frame.width, height: .greatestFiniteMagnitude),
+                    options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
+                
+                if boundingBox.height > 20 {
+                    categoryLabel.frame = CGRect(x: 0, y: frame.width + 42, width: frame.width, height: 20)
+                    priceLabel.frame = CGRect(x: 0, y: frame.width + 56, width: frame.width, height: 20)
+                } else {
+                    categoryLabel.frame = CGRect(x: 0, y: frame.width + 22, width: frame.width, height: 20)
+                    priceLabel.frame = CGRect(x: 0, y: frame.width + 40, width: frame.width, height: 20)
+                }
+                
+                nameLabel.frame = CGRect(x: 0, y: frame.width + 5 , width: frame.width, height: 40)
+                nameLabel.sizeToFit()
             }
             
-            if let category = app?.category {
+            if let category = app?.Category {
                 categoryLabel.text = category
             }
             
-            if let price = app?.price {
+            if let price = app?.Price {
                 priceLabel.text = "$\(price)"
             } else {
                 priceLabel.text = ""
             }
             
-            if let imageName = app?.imageName {
+            if let imageName = app?.ImageName {
                 imageView.image = UIImage(named: imageName)
             }
         }
