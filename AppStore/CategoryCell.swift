@@ -12,6 +12,14 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDelegate {
     
     private let cellId = "appCellId"
     
+    var appCategory: AppCategory? {
+        didSet {
+            if let name = appCategory?.name {
+                nameLabel.text = name
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -39,7 +47,6 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDelegate {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Best New Apps"
         label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -70,11 +77,14 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDelegate {
 extension CategoryCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return appCategory?.apps?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! AppCell
+        
+        cell.app = appCategory?.apps?[indexPath.item]
+        
         return cell
     }
     
@@ -92,6 +102,29 @@ extension CategoryCell: UICollectionViewDelegateFlowLayout {
 }
 
 class AppCell: UICollectionViewCell {
+    
+    var app: App? {
+        didSet {
+            if let name = app?.name {
+                nameLabel.text = name
+            }
+            
+            if let category = app?.category {
+                categoryLabel.text = category
+            }
+            
+            if let price = app?.price {
+                priceLabel.text = "$\(price)"
+            } else {
+                priceLabel.text = ""
+            }
+            
+            if let imageName = app?.imageName {
+                imageView.image = UIImage(named: imageName)
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -103,7 +136,6 @@ class AppCell: UICollectionViewCell {
     
     let imageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(named: "frozen")
         iv.contentMode = .scaleAspectFill
         iv.layer.cornerRadius = 16
         iv.layer.masksToBounds = true
