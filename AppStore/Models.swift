@@ -9,44 +9,8 @@
 import UIKit
 
 class Featured: Decodable {
-    //var bannerCategory: [AppCategory]?
+    var bannerCategory: AppCategory?
     var categories: [AppCategory]?
-}
-
-class AppCategory: Decodable {
-    
-    var name: String?
-    var apps: [App]?
-    var type: String?
-    
-    static func fetchedFeaturedApps(completionHandler: @escaping ([AppCategory]) -> ()) {
-        let session = URLSession.shared
-        let urlString = "https://api.letsbuildthatapp.com/appstore/featured"
-        
-        let task = session.dataTask(with: URL(string: urlString)!) { (data, response, error) in
-            guard (error == nil) else { return }
-            guard let data = data else { return }
-            
-            var appCategories = [AppCategory]()
-            
-            do {
-                let json = try JSONDecoder().decode(Featured.self, from: data)
-                
-                if let categories = json.categories {
-                    appCategories = categories
-                }
-                
-            } catch let error {
-                print(error)
-            }
-            
-            DispatchQueue.main.async {
-                completionHandler(appCategories)
-            }
-        }
-        task.resume()
-    }
-
 }
 
 class App: Decodable {
@@ -55,4 +19,37 @@ class App: Decodable {
     var Category: String?
     var ImageName: String?
     var Price: Float?
+}
+
+class AppCategory: Decodable {
+    var name: String?
+    var apps: [App]?
+    var type: String?
+}
+
+extension AppCategory {
+    
+    static func fetchedFeaturedApps(completionHandler: @escaping (Featured) -> ()) {
+        let session = URLSession.shared
+        let urlString = "https://api.letsbuildthatapp.com/appstore/featured"
+        
+        let task = session.dataTask(with: URL(string: urlString)!) { (data, response, error) in
+            guard (error == nil) else { return }
+            guard let data = data else { return }
+            
+            var featuredApps = Featured()
+            
+            do {
+                featuredApps = try JSONDecoder().decode(Featured.self, from: data)
+            } catch let error {
+                print(error)
+            }
+            
+            DispatchQueue.main.async {
+                completionHandler(featuredApps)
+            }
+        }
+        task.resume()
+    }
+    
 }

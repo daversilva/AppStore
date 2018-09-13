@@ -18,6 +18,8 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDelegate {
             if let name = appCategory?.name {
                 nameLabel.text = name
             }
+            
+            appsCollectionView.reloadData()
         }
     }
     
@@ -54,7 +56,6 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDelegate {
     }()
     
     func setupViews() {
-        
         addSubview(appsCollectionView)
         addSubview(dividerLineView)
         addSubview(nameLabel)
