@@ -41,12 +41,14 @@ class FeaturedAppsController: UICollectionViewController {
         if indexPath.item == 2 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: largeCellId, for: indexPath) as! LargeCategoryCell
             cell.appCategory = featuredApps?.categories?[indexPath.item]
+            cell.featuredAppsController = self
             return cell
             
         }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CategoryCell
         cell.appCategory = featuredApps?.categories?[indexPath.item]
+        cell.featuredAppsController = self
         return cell
     }
     
@@ -58,6 +60,13 @@ class FeaturedAppsController: UICollectionViewController {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! Header
         header.appCategory = featuredApps?.bannerCategory
         return header
+    }
+    
+    func showAppDetailForApp(_ app: App) {
+        let layout = UICollectionViewFlowLayout()
+        let appDetailController = AppDetailController(collectionViewLayout: layout)
+        appDetailController.app = app
+        navigationController?.pushViewController(appDetailController, animated: true)
     }
 
 }

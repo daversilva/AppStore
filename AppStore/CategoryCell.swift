@@ -12,6 +12,7 @@ import Foundation
 class CategoryCell: UICollectionViewCell, UICollectionViewDelegate {
     
     private let cellId = "appCellId"
+    var featuredAppsController: FeaturedAppsController?
     
     var appCategory: AppCategory? {
         didSet {
@@ -72,6 +73,12 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDelegate {
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[v0]-8-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": appsCollectionView]))
         
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[nameLabel(30)][v0][v1(0.5)]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": appsCollectionView, "v1": dividerLineView, "nameLabel": nameLabel]))
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let app = appCategory?.apps?[indexPath.item] {
+            featuredAppsController?.showAppDetailForApp(app)
+        }
     }
     
 }
