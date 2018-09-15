@@ -27,9 +27,9 @@ class FeaturedAppsController: UICollectionViewController {
         }
         
         collectionView?.backgroundColor = UIColor.white
+        collectionView?.register(HeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         collectionView?.register(CategoryCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.register(LargeCategoryCell.self, forCellWithReuseIdentifier: largeCellId)
-        collectionView?.register(Header.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -57,7 +57,7 @@ class FeaturedAppsController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! Header
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! HeaderCell
         header.appCategory = featuredApps?.bannerCategory
         return header
     }
@@ -82,7 +82,7 @@ extension FeaturedAppsController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-class Header: CategoryCell {
+class HeaderCell: CategoryCell {
     
     let cellId = "cellId"
     
@@ -91,10 +91,10 @@ class Header: CategoryCell {
         appsCollectionView.delegate = self
         
         appsCollectionView.register(BannerCell.self, forCellWithReuseIdentifier: cellId)
-        addSubview(appsCollectionView)
         
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": appsCollectionView]))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": appsCollectionView]))
+        addSubview(appsCollectionView)
+        addConstraintsWithFormat(format: "H:|[v0]|", views: appsCollectionView)
+        addConstraintsWithFormat(format: "V:|[v0]|", views: appsCollectionView)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -117,9 +117,10 @@ class Header: CategoryCell {
             imageView.layer.borderColor = UIColor(white: 0.5, alpha: 0.5).cgColor
             imageView.layer.borderWidth = 0.5
             imageView.translatesAutoresizingMaskIntoConstraints = false
+            
             addSubview(imageView)
-            addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": imageView]))
-            addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": imageView]))
+            addConstraintsWithFormat(format: "H:|[v0]|", views: imageView)
+            addConstraintsWithFormat(format: "V:|[v0]|", views: imageView)
         }
     }
 }
@@ -147,8 +148,8 @@ class LargeCategoryCell: CategoryCell {
         override func setupViews() {
             imageView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(imageView)
-            addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": imageView]))
-            addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-2-[v0]-14-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": imageView]))
+            addConstraintsWithFormat(format: "H:|[v0]|", views: imageView)
+            addConstraintsWithFormat(format: "V:|-2-[v0]-14-|", views: imageView)
         }
     }
 }

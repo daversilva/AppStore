@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AppDetailController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class AppDetailController: UICollectionViewController {
     
     var app: App? {
         didSet {
@@ -88,20 +88,6 @@ class AppDetailController: UICollectionViewController, UICollectionViewDelegateF
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        if indexPath.item == 1 {
-            
-            let dummySize = CGSize(width: view.frame.width - 8 - 8, height: 1000)
-            let options = NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin)
-            let rect = descriptionAttributedText().boundingRect(with: dummySize, options: options, context: nil)
-            
-            return CGSize(width: view.frame.width, height: rect.height + 30)
-        }
-        
-        return CGSize(width: view.frame.width, height: 170)
-    }
-    
     private func descriptionAttributedText() -> NSAttributedString {
         let attributedText = NSMutableAttributedString(string: "Description\n", attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14)])
         
@@ -120,30 +106,22 @@ class AppDetailController: UICollectionViewController, UICollectionViewDelegateF
 
 }
 
-class AppDetailDescriptionCell: BaseCell {
+extension AppDetailController: UICollectionViewDelegateFlowLayout {
     
-    let textView: UITextView = {
-        let tv = UITextView()
-        tv.text = "Description Sample"
-        return tv
-    }()
-    
-    let divideLineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(white: 0.4, alpha: 0.4)
-        return view
-    }()
-    
-    override func setupViews() {
-        super.setupViews()
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        addSubview(textView)
-        addSubview(divideLineView)
+        if indexPath.item == 1 {
+            
+            let dummySize = CGSize(width: view.frame.width - 8 - 8, height: 1000)
+            let options = NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin)
+            let rect = descriptionAttributedText().boundingRect(with: dummySize, options: options, context: nil)
+            
+            return CGSize(width: view.frame.width, height: rect.height + 30)
+        }
         
-        addConstraintsWithFormat(format: "H:|-8-[v0]-8-|", views: textView)
-        addConstraintsWithFormat(format: "H:|-14-[v0]|", views: divideLineView)
-        addConstraintsWithFormat(format: "V:|-4-[v0]-4-[v1(1)]|", views: textView, divideLineView)
+        return CGSize(width: view.frame.width, height: 170)
     }
+    
 }
 
 class AppDetailHeader: BaseCell {
@@ -160,6 +138,8 @@ class AppDetailHeader: BaseCell {
             
             if let price = app?.Price {
                 buyButton.setTitle("$\(price)", for: .normal)
+            } else {
+                buyButton.isHidden = true
             }
         }
     }
@@ -193,7 +173,6 @@ class AppDetailHeader: BaseCell {
     
     let buyButton: UIButton = {
         let button = UIButton(type: UIButtonType.system)
-        //button.setTitle("BUY", for: .normal)
         button.layer.borderColor = UIColor(red: 0, green: 129/255, blue: 250/255, alpha: 1).cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
@@ -228,33 +207,27 @@ class AppDetailHeader: BaseCell {
     }
 }
 
-extension UIView {
+class AppDetailDescriptionCell: BaseCell {
     
-    func addConstraintsWithFormat(format: String, views: UIView...) {
-        var viewDictionary = [String:UIView]()
-        
-        for (index, view) in views.enumerated() {
-            let key = "v\(index)"
-            viewDictionary[key] = view
-            view.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewDictionary))
-        
-    }
-}
-
-class BaseCell: UICollectionViewCell {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
+    let textView: UITextView = {
+        let tv = UITextView()
+        return tv
+    }()
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    let divideLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 0.4, alpha: 0.4)
+        return view
+    }()
     
-    func setupViews() {
+    override func setupViews() {
+        super.setupViews()
         
+        addSubview(textView)
+        addSubview(divideLineView)
+        
+        addConstraintsWithFormat(format: "H:|-8-[v0]-8-|", views: textView)
+        addConstraintsWithFormat(format: "H:|-14-[v0]|", views: divideLineView)
+        addConstraintsWithFormat(format: "V:|-4-[v0]-4-[v1(1)]|", views: textView, divideLineView)
     }
 }

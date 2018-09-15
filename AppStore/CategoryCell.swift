@@ -9,9 +9,10 @@
 import UIKit
 import Foundation
 
-class CategoryCell: UICollectionViewCell, UICollectionViewDelegate {
+class CategoryCell: BaseCell, UICollectionViewDelegate {
     
     private let cellId = "appCellId"
+    
     var featuredAppsController: FeaturedAppsController?
     
     var appCategory: AppCategory? {
@@ -22,15 +23,6 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDelegate {
             
             appsCollectionView.reloadData()
         }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     let appsCollectionView: UICollectionView = {
@@ -56,7 +48,8 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDelegate {
         return label
     }()
     
-    func setupViews() {
+    override func setupViews() {
+        super.setupViews()
         addSubview(appsCollectionView)
         addSubview(dividerLineView)
         addSubview(nameLabel)
@@ -66,13 +59,10 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDelegate {
         
         appsCollectionView.register(AppCell.self, forCellWithReuseIdentifier: cellId)
         
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-14-[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": nameLabel]))
-        
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-14-[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": dividerLineView]))
-        
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-8-[v0]-8-|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": appsCollectionView]))
-        
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[nameLabel(30)][v0][v1(0.5)]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": appsCollectionView, "v1": dividerLineView, "nameLabel": nameLabel]))
+        addConstraintsWithFormat(format: "H:|-14-[v0]|", views: nameLabel)
+        addConstraintsWithFormat(format: "H:|-14-[v0]|", views: dividerLineView)
+        addConstraintsWithFormat(format: "H:|-8-[v0]-8-|", views: appsCollectionView)
+        addConstraintsWithFormat(format: "V:|[v2(30)][v0][v1(0.5)]|", views: appsCollectionView, dividerLineView, nameLabel)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -110,7 +100,7 @@ extension CategoryCell: UICollectionViewDelegateFlowLayout {
     }
 }
 
-class AppCell: UICollectionViewCell {
+class AppCell: BaseCell {
     
     var app: App? {
         didSet {
@@ -148,15 +138,6 @@ class AppCell: UICollectionViewCell {
         }
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     let imageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -167,7 +148,6 @@ class AppCell: UICollectionViewCell {
     
     let nameLabel: UILabel = {
        let label = UILabel()
-        label.text = "Disney Build It: Frozen"
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 2
         return label
@@ -175,7 +155,6 @@ class AppCell: UICollectionViewCell {
     
     let categoryLabel: UILabel = {
         let label = UILabel()
-        label.text = "Entertainment"
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = UIColor.darkGray
         return label
@@ -183,13 +162,13 @@ class AppCell: UICollectionViewCell {
     
     let priceLabel: UILabel = {
         let label = UILabel()
-        label.text = "$3.99"
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = UIColor.darkGray
         return label
     }()
     
-    func setupViews() {
+    override func setupViews() {
+        super.setupViews()
         addSubview(imageView)
         addSubview(nameLabel)
         addSubview(categoryLabel)
