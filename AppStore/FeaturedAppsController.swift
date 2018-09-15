@@ -21,7 +21,7 @@ class FeaturedAppsController: UICollectionViewController {
 
         navigationItem.title = "Featured Apps"
         
-        AppCategory.fetchedFeaturedApps { (featured) in
+        Network.shared.fetchedGenericData { (featured: Featured) in
             self.featuredApps = featured
             self.collectionView?.reloadData()
         }

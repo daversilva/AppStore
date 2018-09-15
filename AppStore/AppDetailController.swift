@@ -16,28 +16,13 @@ class AppDetailController: UICollectionViewController {
             if app?.Screenshots != nil { return }
             
             if let id = app?.Id {
-                let urlString = "https://api.letsbuildthatapp.com/appstore/appdetail?id=\(id)"
-                
-                URLSession.shared.dataTask(with: URL(string: urlString)!) { (data, response, error) in
-                    
-                    guard (error == nil) else { return }
-                    guard let data = data else { return }
-                    
-                    var appDetail = App()
-                    
-                    do {
-                        appDetail = try JSONDecoder().decode(App.self, from: data)
-                    } catch let error {
-                        print(error)
-                    }
-                    
+                Network.shared.fetchedGenericData(id: id) { (appDetail: App) in
                     self.app = appDetail
                     
                     DispatchQueue.main.async {
                         self.collectionView?.reloadData()
                     }
-                    
-                }.resume()
+                }
             }
         }
     }
