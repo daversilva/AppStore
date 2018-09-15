@@ -19,12 +19,21 @@ class App: Decodable {
     var Category: String?
     var ImageName: String?
     var Price: Float?
+    
+    var Screenshots: [String]?
+    var description: String?
+    var appInformation: [AppInformation]?
 }
 
 class AppCategory: Decodable {
     var name: String?
     var apps: [App]?
     var type: String?
+}
+
+class AppInformation: Decodable {
+    var Name: String?
+    var Value: String?
 }
 
 extension AppCategory {

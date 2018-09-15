@@ -14,6 +14,7 @@
 		BC3A615E21459C8E008AB49A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC3A615C21459C8E008AB49A /* LaunchScreen.storyboard */; };
 		BC3A61662145A3ED008AB49A /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A61652145A3ED008AB49A /* CategoryCell.swift */; };
 		BC3A61682145E0EA008AB49A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A61672145E0EA008AB49A /* Models.swift */; };
+		BC971277214C4413002DF5CD /* ScreenshotsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC971276214C4413002DF5CD /* ScreenshotsCell.swift */; };
 		BC9B305E214A0E48007319CF /* AppDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9B305D214A0E48007319CF /* AppDetailController.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		BC3A615F21459C8E008AB49A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC3A61652145A3ED008AB49A /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		BC3A61672145E0EA008AB49A /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		BC971276214C4413002DF5CD /* ScreenshotsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotsCell.swift; sourceTree = "<group>"; };
 		BC9B305D214A0E48007319CF /* AppDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,6 +67,7 @@
 				BC9B305D214A0E48007319CF /* AppDetailController.swift */,
 				BC3A61652145A3ED008AB49A /* CategoryCell.swift */,
 				BC3A61672145E0EA008AB49A /* Models.swift */,
+				BC971276214C4413002DF5CD /* ScreenshotsCell.swift */,
 				BC3A615721459C8D008AB49A /* Main.storyboard */,
 				BC3A615A21459C8E008AB49A /* Assets.xcassets */,
 				BC3A615C21459C8E008AB49A /* LaunchScreen.storyboard */,
@@ -149,6 +152,7 @@
 				BC3A61662145A3ED008AB49A /* CategoryCell.swift in Sources */,
 				BC9B305E214A0E48007319CF /* AppDetailController.swift in Sources */,
 				BC3A61682145E0EA008AB49A /* Models.swift in Sources */,
+				BC971277214C4413002DF5CD /* ScreenshotsCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
