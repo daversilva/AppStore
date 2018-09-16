@@ -16,11 +16,16 @@ class AppDetailController: UICollectionViewController {
             if app?.Screenshots != nil { return }
             
             if let id = app?.Id {
-                Network.shared.fetchedGenericData(id: id) { (appDetail: App) in
-                    self.app = appDetail
-                    
-                    DispatchQueue.main.async {
-                        self.collectionView?.reloadData()
+                
+                Network.shared.fetchedGenericData(id: id) { (appDetail: Result<App>) in
+                    switch appDetail {
+                        case let .success(appDetail) :
+                            self.app = appDetail
+                            DispatchQueue.main.async {
+                                self.collectionView?.reloadData()
+                            }
+                        case let .failure(error):
+                            print(error)
                     }
                 }
             }

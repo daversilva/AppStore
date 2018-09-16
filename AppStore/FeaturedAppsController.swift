@@ -21,9 +21,14 @@ class FeaturedAppsController: UICollectionViewController {
 
         navigationItem.title = "Featured Apps"
         
-        Network.shared.fetchedGenericData { (featured: Featured) in
-            self.featuredApps = featured
-            self.collectionView?.reloadData()
+        Network.shared.fetchedGenericData { (featured: Result<Featured>) in
+            switch featured {
+                case let .success(featured):
+                    self.featuredApps = featured
+                    self.collectionView?.reloadData()
+                case let .failure(error) :
+                    print(error)
+            }
         }
         
         collectionView?.backgroundColor = UIColor.white
